@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "centos66"
+  config.vm.box = "centos7.1"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -75,5 +75,17 @@ Vagrant.configure("2") do |config|
     sudo cp ./conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
     sudo chmod a+x /usr/local/openresty/nginx/conf/nginx.conf
     sudo service nginx start
+
+    # for fluentd
+    wget https://curl.mirror.anstey.ca/curl-7.58.0.tar.bz2
+    tar xf curl-7.58.0.tar.bz2
+    cd curl-7.58.0
+    ./configure --enable-libcurl-option
+    make
+    sudo make install
+    curl --tlsv1.2 -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent2.sh | sh
+
+    # start
+    # sudo /etc/init.d/td-agent start
   SHELL
 end
